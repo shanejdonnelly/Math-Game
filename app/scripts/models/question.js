@@ -15,7 +15,7 @@ var Question = function(game){
 
 Question.prototype.update = function(){
 	this.y = this.y + this.speed;
-	this.context.fillText(this.question, this.x, this.y);
+//	this.context.fillText(this.question, this.x, this.y);
 }
 
 Question.prototype.draw = function(){

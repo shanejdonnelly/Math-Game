@@ -1,61 +1,29 @@
 $(function(){
 
-  var App = {
-
-
-  
-   	init: function(){
-    	var canvas = document.getElementById('world');
-    	var game = new Game(canvas);
-			var player = new Player(game);
-	    Controller.init(); 
-  }
-
-  
-  
-  
-  }
-
-	var Controller = {
-
-		init: function(){
-			this.bind();
-		},
-
-		bind: function(){
-    	
-
-
-			$('body').on('keydown', function(e){
-
-				e.preventDefault();
-
-    		switch(e.which) {
-      	  case 37: // left
-    	   	  App.game.movePlayer();
-					break;
-
-        	case 38: // up
-						App.game.player.moveUp();
-        	break;
-
-	        case 39: // right
-    	   	  App.game.player.moveRight();
-  	      break;
-
-    	    case 40: // down
-    	   	  App.game.player.moveDown();
-  	      break;
-	
-    	    default: return; // exit this handler for other keys
-    	}
-    	
-   	});
+// Array Remove - By John Resig (MIT Licensed)
+Array.prototype.remove = function(from, to) {
+  var rest = this.slice((to || from) + 1 || this.length);
+  this.length = from < 0 ? this.length + from : from;
+  return this.push.apply(this, rest);
+};
  
-  }
 
-  }
 
-	App.init()
+		var game = new Game(document.getElementById('board'));
+
+if (Modernizr.localstorage) {
+  // window.localStorage is available!
+//user
+//level
+//math type
+
+
+var name = localStorage.getItem('name');
+if(name == null){console.log('create new user')}
+else{ console.log(name); }
+} else {
+  // no native support for HTML5 storage :(
+  // maybe try dojox.storage or a third-party solution
+}
 
 });

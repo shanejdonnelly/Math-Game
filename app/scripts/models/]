@@ -1,0 +1,59 @@
+var Main_Controller  = function(game, player){
+
+	var
+		$container = $('#container'),
+		$board = $container.find('canvas#board'),
+		$answer = $container.find('#answer');
+
+	$('#play').on('click', function(){ game.play();  })		
+	$('#stop').on('click', function(){ game.pause();  })		
+
+	$container.on('keydown', function(e){
+
+			switch(e.which){
+				case 37: 
+					e.preventDefault();
+					player.moveLeft();
+					break;
+				case 38: 
+					e.preventDefault();
+					player.moveUp();
+					break;
+				case 39: 
+					e.preventDefault();
+					player.moveRight();
+					break;
+				case 40: 
+					e.preventDefault();
+					player.moveDown();
+					break;
+				case 13: 
+					if(game.awaiting_answer){
+						e.preventDefault();
+						e.preventPropagation();
+						game.checkAnswer();
+						break;
+					}
+			}	
+   	});
+
+	$container.on('question_prompted', function(){
+		$board.css('opacity', 0.5);
+		$answer.css('display', 'block');
+		$answer.find('input').focus();		
+	});
+
+	$container.on('answer_correct', function(){
+		$answer.append('<p>Yay!</p>');
+		$board.css('opacity', 1);
+		setTimeout(function(){$answer.fadeOut(1000);}, 1000);
+
+	});
+	$container.on('answer_wrong', function(){
+		$answer.append('<p>Boo!</p>');
+		$board.css('opacity', 0.5);
+		$answer.css('display', 'block');
+
+	});
+}
+
