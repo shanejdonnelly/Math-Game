@@ -7,10 +7,19 @@ Array.prototype.remove = function(from, to) {
   return this.push.apply(this, rest);
 };
  
+/*
+if(user is new)create new user
+else load user
+need to pass in user to new Game
+*/
 
+	//	var user = new User();
+	var user = {};
+	user.name = "Shane';
+	user.level = 1;
 
-		var game = new Game(document.getElementById('board'));
-
+		var game = new Game($('#container'), document.getElementById('board'), user);
+ 
 if (Modernizr.localstorage) {
   // window.localStorage is available!
 //user
