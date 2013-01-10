@@ -15,6 +15,8 @@ var Question = function(game){
   this.width = this.radius * 2;
 	this.height = this.width;
 
+
+
 }
 
 Question.prototype.update = function(){

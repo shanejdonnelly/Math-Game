@@ -41,3 +41,27 @@ Player.prototype.moveDown = function(){
 	this.player_y += 5;
 
 }
+Player.prototype.jump = function(){
+	var 
+		base = this,
+		fps = this.game.fps,
+		jump_length = 50,
+		end_x = this.player_x + jump_length,
+		jump_height = 30,
+		top_y = this.player_y - jump_height,
+		jump_time = 1000,
+		interval;
+
+console.log(top_y);
+		interval = setInterval(function(){
+			while(base.player_x < end_x){
+				base.player_x += (jump_length / fps);
+
+				if(base.player_y > top_y){ base.player_y -= (jump_height / (fps / 2)); }
+				else{ base.player_y += (jump_height / (fps /2)); }
+console.log(base.player_y)
+			//clear interval when done
+			}
+		},  (1000/fps));
+
+}

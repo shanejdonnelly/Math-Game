@@ -15,7 +15,7 @@ need to pass in user to new Game
 
 	//	var user = new User();
 	var user = {};
-	user.name = "Shane';
+	user.name = 'Shane';
 	user.level = 1;
 
 		var game = new Game($('#container'), document.getElementById('board'), user);

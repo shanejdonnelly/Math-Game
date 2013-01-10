@@ -15,4 +15,9 @@ var Helper = {
 
 		return direct_hit;
 	}
+
+	check_pixel_collision: function(){ 
+
+	}
+
 }

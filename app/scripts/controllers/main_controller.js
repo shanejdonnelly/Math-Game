@@ -22,16 +22,20 @@ var Main_Controller  = function(game, player){
 					player.moveLeft();
 					break;
 				case 38: 
-				//	e.preventDefault();
-				//	player.moveUp();
+					e.preventDefault();
+					player.moveUp();
 					break;
 				case 39: 
 					e.preventDefault();
 					player.moveRight();
 					break;
 				case 40: 
-				//	e.preventDefault();
-				//	player.moveDown();
+					e.preventDefault();
+					player.moveDown();
+					break;
+				case 32: 
+					e.preventDefault();
+					player.jump();
 					break;
 				case 80: 
 					e.preventDefault();
