@@ -18,6 +18,9 @@ var Game = function($container, canvas, user) {
   var game = this;
   this.playing = false;	
 	this.$el = $container;
+	this.bg = new Image();
+	this.bg.src = '../../images/maze.png';
+
 }
 
 Game.prototype.play = function(){
@@ -32,7 +35,7 @@ Game.prototype.play = function(){
  this.questionloop = setInterval(function(){
   	var temp = new Question(game);
   	game.active_questions.push(temp);
-	} , 500);
+	} , 1500);
  
 
 }
@@ -48,18 +51,22 @@ Game.prototype.updateAll = function() {
 	if(this.q_correct === 10){ this.victory();  }
 	if(this.q_wrong === 10){ this.defeat();  }
 	
-	this.player.update();
-  
+	this.player.update(); 
+
 	for(var x=0; x < (this.active_questions.length - 1); x++){
     this.active_questions[x].update();  
-	  var collision = Helper.check_collision(this.active_questions[x], this.player);
-		if(collision){ this.promptQuestion(x); }
+
+	  var hit_question = Helper.check_collision( this.active_questions[x], this.player);
+		if(hit_question){ this.promptQuestion(x); }
   }
 
 }
 
 Game.prototype.drawAll = function() {
-  this.context.clearRect( 0, 0, this.context_width, this.context_height);
+//  this.context.clearRect( 0, 0, this.context_width, this.context_height);
+this.context.drawImage(this.bg,0,0,this.context_width, this.context_height);
+//this.drawRectangle('#000', 0,0,450, 400);
+//this.drawRectangle('#fff', 100,100, 500, 500);
   this.player.draw();
   for(var x=0; x < (this.active_questions.length - 1); x++){
     this.active_questions[x].draw();  

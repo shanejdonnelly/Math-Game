@@ -27,7 +27,8 @@ Question.prototype.update = function(){
 Question.prototype.draw = function(){
 	this.context.font = '16px Arial';
   this.context.fillText(this.question, this.x, this.y);
-  this.game.drawCircle(this.x, this.y, this.radius, this.fill_color, this.line_width, this.stroke_color);
+//  this.game.drawCircle(this.x, this.y, this.radius, this.fill_color, this.line_width, this.stroke_color);
+	this.game.drawRectangle('red', this.x, this.y, this.width, this.height);
 }
 
 Question.prototype.generate = function(){
