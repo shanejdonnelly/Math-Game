@@ -4,14 +4,14 @@
 
 canvas#board{ border:1px solid #000; position:absolute; left:50px;/* background:url(images/maze.png) no-repeat -40px -2px;*/ }
 
-#answer{ position:absolute; top:150px; left:250px; display:none; width:80px; height:80px; background: rgba(255,255,255,0.85); }
+#single_question{ position:absolute; top:150px; left:250px; display:none; width:80px; height:80px; background: rgba(255,255,255,0.85); }
 
-#answer p{ width:70px; margin:5px;  }
+#single_question p{ width:70px; margin:5px;  }
 
-#answer input{ width:50px; margin:8px;  }
+#single_question input{ width:50px; margin:8px;  }
 
-#score{ position:absolute; left: 550px; width:50px; }
+#score{ position:absolute; left: 950px; width:50px; }
 
 #score p{ width:40px; margin:5px; float:left;  }
 
-#timer{ position:absolute; left:650px; width:50px;  }
+#timer{ position:absolute; left:1000px; width:50px;  }

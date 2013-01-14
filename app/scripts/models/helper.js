@@ -15,7 +15,9 @@ var Helper = {
 
 		return direct_hit;
 	},
-//only looking for collision with black
+
+//looking for collision with green(30, 100, 30), blue(20, 90, 220)
+//black and brown(155, 84, 32)
 	check_pixel_collision: function(context, x, y, width, height){ 
 		var 
 			imgData = context.getImageData(x-1, y-1, width+2, height+2),
@@ -29,13 +31,30 @@ var Helper = {
     var blue = pixels[i+2];
     var alpha = pixels[i+3];
 
-    // Look for black walls (which indicates a collision).
-    if (red == 0 && green == 0 && blue == 0) {
-      return true;
+    if ((red === 30 && green === 100 && blue === 30) || (red === 20 && green === 90 && blue === 220) || (red === 0 && green === 0 && blue === 0 )) {
+      return 'wall';
     }
+		else if(red === 155 && green === 84 && blue === 32){
+			return 'house';
+		}
   }
   // There was no collision.
   return false;
+	},
+
+	drawRectangle : function(context, color, x, y, width, height) {
+  	context.fillStyle = color;
+  	context.fillRect(x, y, width, height);
+	},
+
+	drawCircle : function(context, center_x, center_y, radius, fill_color, line_width, stroke_color ){
+  	context.beginPath();
+  	context.arc(center_x, center_y, radius, 0, 2 * Math.PI);
+  	context.fillStyle = fill_color;
+  	context.fill();
+  	context.lineWidth = line_width;
+  	context.strokeStyle = stroke_color;
+  	context.stroke();
 	}
 
 }

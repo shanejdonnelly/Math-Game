@@ -1,60 +1,82 @@
 var Player = function(game) {
   this.game = game;
 	this.context = game.context;
-  this.player_x = 200;
-  this.player_y = 335;
+  this.player_x = 230;
+  this.player_y = 390;
 	this.player_width=20;
 	this.player_height = 40;
 	this.sprite_x = 5;
 	this.sprite_y = 79;
 	this.sprite_width = 20;
-	this.sprite_height = 40;
+	this.sprite_height = 34;
+	//movement
+	this.slow = 2;
+	this.fast = 7;
 	this.last_move = '';
-this.image = new Image();
-this.image.src = 'images/sprite_sheet.png';
+	this.last_move_speed = '';
+	this.image = new Image();
+	this.image.src = 'images/sprite_sheet.png';
 }
 
 Player.prototype.update = function() {
-  var hit_wall = Helper.check_pixel_collision(this.context, this.player_x, this.player_y, this.player_width, this.player_height);
-	if(hit_wall){ this.backUp(); }
+  var hit = Helper.check_pixel_collision(this.context, this.player_x, this.player_y, this.player_width, this.player_height);
+	if(hit === 'wall'){ this.backUp(); }
+	else if (hit === 'house'){   }
 }
 
 Player.prototype.draw = function() { 
 
-	this.game.drawRectangle('#fff', this.player_x, this.player_y, this.player_width, this.player_height);
+	Helper.drawRectangle(this.context, '#fff', this.player_x, this.player_y, this.player_width, this.player_height);
   this.context.drawImage(this.image, this.sprite_x, this.sprite_y, this.sprite_width, this.sprite_height, this.player_x, this.player_y, this.player_width, this.player_height);
 }
 Player.prototype.backUp = function(){
+
 	switch(this.last_move){
 		case 'left':
-			this.moveRight();
+			this.moveRight(this.last_move_speed);
 			break;
 		case 'right':
-			this.moveLeft();
+			this.moveLeft(this.last_move_speed);
 			break;
 		case 'up':
-			this.moveDown();
+			this.moveDown(this.last_move_speed);
 			break;
 		case 'down':
-			this.moveUp();
+			this.moveUp(this.last_move_speed);
 			break;
 	}
 },
-Player.prototype.moveLeft = function(){
-	this.player_x -= 5;
+Player.prototype.moveLeft = function(speed){
+	if(typeof speed === 'undefined'){ speed = 'slow' }
+
+	var amount = (speed === 'slow') ? this.slow : this.fast;
+	this.player_x -= amount;
 	this.last_move = 'left';
+	this.last_move_speed = speed;
 }
-Player.prototype.moveRight = function(){
-	this.player_x += 5;
+Player.prototype.moveRight = function(speed){
+	if(typeof speed === 'undefined'){ speed = 'slow' }
+
+	var amount = (speed === 'slow') ? this.slow : this.fast;
+	this.player_x += amount;
 	this.last_move = 'right';
+	this.last_move_speed = speed;
 }
-Player.prototype.moveUp = function(){
-	this.player_y -= 5;
+Player.prototype.moveUp = function(speed){
+	if(typeof speed === 'undefined'){ speed = 'slow' }
+
+	var amount = (speed === 'slow') ? this.slow : this.fast;
+	this.player_y -= amount;
 	this.last_move = 'up';
+	this.last_move_speed = speed;
 }
-Player.prototype.moveDown = function(){
-	this.player_y += 5;
+Player.prototype.moveDown = function(speed){
+	if(typeof speed === 'undefined'){ speed = 'slow' }
+
+	var amount = (speed === 'slow') ? this.slow : this.fast;
+	this.player_y += amount;
 	this.last_move = 'down';
+	this.last_move_speed = speed;
 }
 Player.prototype.jump = function(){
 	var 
