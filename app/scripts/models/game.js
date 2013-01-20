@@ -61,8 +61,8 @@ Game.prototype.pause = function(){
 }
 
 Game.prototype.updateAll = function() {
-	if(this.q_correct === 10){ this.victory();  }
-	if(this.q_wrong === 10){ this.defeat();  }
+	if(this.num_correct === 10){ this.victory();  }
+	if(this.num_wrong === 10){ this.defeat();  }
 	
 	this.player.update(); 
 
@@ -144,7 +144,8 @@ Game.prototype.checkAnswer = function(input_answer){
 			setTimeout(function(){base.visitingHouse();}, 500);
 		 }
 	}
-  else{ alert('damn'); }
+  else{ alert('nope - try again'); }
+
 }
 
 Game.prototype.victory = function(){
