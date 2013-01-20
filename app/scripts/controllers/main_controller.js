@@ -5,6 +5,7 @@ var Main_Controller  = function(game, player){
 		$container = $('#container'),
 		$board = $container.find('canvas#board'),
 		$single_question = $container.find('#single_question'),
+		$house = $container.find('#house'),
 		$input = $single_question.find('input'),
 		$score = $container.find('#score');
 		$timer = $container.find('#timer'),
@@ -35,57 +36,26 @@ var Main_Controller  = function(game, player){
 					}
 	});
 
-/*	$body.on('keydown', function(e){
-
-			switch(e.which){
-				case 37: 
-					e.preventDefault();
-					player.moveLeft();
-					break;
-				case 38: 
-					e.preventDefault();
-					player.moveUp();
-					break;
-				case 39: 
-					e.preventDefault();
-					player.moveRight();
-					break;
-				case 40: 
-					e.preventDefault();
-					player.moveDown();
-					break;
-				case 32: 
-					e.preventDefault();
-					player.jump();
-					break;
-				case 80: 
-					e.preventDefault();
-					game.play();
-					break;
-				case 83: 
-					e.preventDefault();
-					game.pause();
-					break;
-				case 13: 
-					if(game.awaiting_answer){
-					
-						e.preventDefault();
-						game.checkAnswer(parseInt($input.val()));
-
-						break;
-					}
-			}	
-   	});
-*/
-	$container.on('question_prompted', function(e, question){
+	$container.on('play', function(){
+		$board.css('opacity', 1);
+		timer = setInterval(function(){
+			time++;
+			$timer.text(time);
+		}, 1000);
+	});
+	
+	$container.on('pause', function(){
 		$board.css('opacity', 0.5);
+		clearInterval(timer);
+	});
+
+	$container.on('question_prompted', function(e, question){
 		$single_question.css('display', 'block');
 		$input.focus();	
 		$single_question.prepend('<p>' + question + ' =</p>');	
 	});
 
 	$container.on('answer_correct', function(){
-		$board.css('opacity', 1);
 		$score.append('<p>yay</p>');
 		setTimeout(function(){
 			$single_question.fadeOut(200);
@@ -97,25 +67,25 @@ var Main_Controller  = function(game, player){
 	
 	$container.on('answer_wrong', function(){
 		$single_question.append('<p>Boo!</p>');
-		$board.css('opacity', 0.5);
 		$single_question.css('display', 'block');
 
 	});
 
-	$container.on('start_timer', function(){
-		timer = setInterval(function(){
-			time++;
-			$timer.text(time);
-		}, 1000);
+	$container.on('visit_house', function(e, house){
+		$house.fadeIn(200);		
+		$house.append('<p class="intro">' + house.greeting +  '</p>');
+		setTimeout(function(){$house.append('<p class="intro">Here are your questions.</p>');}, 1000);
+		setTimeout(function(){$house.append('<p class="intro">Ready...</p>');},2000);	
+		setTimeout(function(){$house.append('<p class="intro">Set...</p>');}, 3000);	
+		setTimeout(function(){$house.append('<p class="intro">Go...</p>');}, 4000);		
+		setTimeout(function(){$house.find('.intro').remove(); $single_question.css('z-index', 101); }, 5000);		
 	});
-	
-	$container.on('stop_timer', function(){
-		clearInterval(timer);
+
+	$container.on('leave_house', function(e, house){
+		$single_question.css('z-index', 99);
+		$house.append('<p class="outro">'+ house.goodbye + '</p>');
+		setTimeout(function(){ $house.find('.outro').remove(); $house.fadeOut(300); }, 1000);
 	});
-
-
-
-
 
 }
 

@@ -2,16 +2,31 @@
 
 #container{ position:relative; width:990px; margin:50px auto;  }
 
-canvas#board{ border:1px solid #000; position:absolute; left:50px;/* background:url(images/maze.png) no-repeat -40px -2px;*/ }
+canvas#board{ opacity:0.5; border:1px solid #000; position:absolute; left:50px; background:url(images/town.png) no-repeat -40px -2px; }
 
-#single_question{ position:absolute; top:150px; left:250px; display:none; width:80px; height:80px; background: rgba(255,255,255,0.85); }
 
-#single_question p{ width:70px; margin:5px;  }
+@mixin dialog_window($neg_width){ position:absolute; margin-top:150px; margin-left:$neg_width; left:50%; display:none; background-color:rgba(255,255,255,0.9);  }
 
-#single_question input{ width:50px; margin:8px;  }
+#single_question{
+	@include dialog_window(-40px);
+	width:80px; height:80px; 
+	z-index:99;
+	p{ width:70px; margin:5px;  }
+	input{ width:50px; margin:8px;  }
+
+}
 
 #score{ position:absolute; left: 950px; width:50px; }
 
 #score p{ width:40px; margin:5px; float:left;  }
 
 #timer{ position:absolute; left:1000px; width:50px;  }
+
+#house{ 
+	@include dialog_window(-150px);
+	width: 300px; height:300px;	
+	z-index:100;
+  background-color:rgba(255,255,255,1);	
+}
+
+

@@ -21,7 +21,7 @@ var Player = function(game) {
 Player.prototype.update = function() {
   var hit = Helper.check_pixel_collision(this.context, this.player_x, this.player_y, this.player_width, this.player_height);
 	if(hit === 'wall'){ this.backUp(); }
-	else if (hit === 'house'){   }
+
 }
 
 Player.prototype.draw = function() { 

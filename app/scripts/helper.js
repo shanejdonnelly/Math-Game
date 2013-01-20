@@ -55,6 +55,16 @@ var Helper = {
   	context.lineWidth = line_width;
   	context.strokeStyle = stroke_color;
   	context.stroke();
-	}
+	},
+
+	isIn: function(el, value){
+		return (el.indexOf(value) !== -1) ? true : false;
+	},
+	
+	notIn: function(el, value){
+		return (el.indexOf(value) === -1) ? true : false;
+	},
+
+	
 
 }

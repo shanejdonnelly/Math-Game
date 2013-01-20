@@ -6,10 +6,9 @@ var Game = function($container, canvas, user) {
   this.context_width = canvas.width;
   this.context_height = canvas.height;
   this.player = new Player(this);
-  this.active_cars = [];
 	this.awaiting_anwser = false;	
 	this.current_question;
-	this.hit_car;
+	this.hit_car = 0;
 	this.collision = false;
   this.answered_questions = [];
 	this.num_correct = 0;
@@ -22,58 +21,43 @@ var Game = function($container, canvas, user) {
 	this.$el = $container;
 	this.bg = new Image();
 	this.bg.src = '../../images/town.png';
+	this.houses_visited = [];
+	this.cars = this.buildCars(6);
+	this.num_houses = 5;
+	this.in_house = false;
+	this.car_accident = false;
+	this.current_house = 99;
 
+}
+
+Game.prototype.buildCars = function(num){
+	var 
+		roads = ['vert_left_north', 'vert_left_south', 'vert_right', 'horz_slow', 'horz_medium', 'horz_fast'],
+		cars = [];
+
+	for(var i = 0; i < num; i++){
+		cars[i] = new Car(this, roads[i]);
+	} 	
+	return cars;
 }
 
 Game.prototype.play = function(){
 	var game = this;
 	this.playing = true;
 	this.collision = false;
-	this.$el.trigger('start_timer');
+	this.$el.trigger('play');
+
   this.gameloop = setInterval(function() {
     game.updateAll();
     game.drawAll();
   }, 1000 / game.fps);
-
- this.vert_left_north_carloop = setInterval(function(){
-  	var temp = new Car(game, 'vert_left_north');
-  	game.active_cars.push(temp);
-	} , 3500);
- 	this.vert_left_south_carloop = setInterval(function(){
-  	var temp = new Car(game, 'vert_left_south');
-  	game.active_cars.push(temp);
-	} ,3500);
-	this.vert_right_carloop = setInterval(function(){
-  	var temp = new Car(game, 'vert_right');
-  	game.active_cars.push(temp);
-	} ,3500);
-	this.horz_slow_carloop = setInterval(function(){
-  	var temp = new Car(game, 'horz_slow');
-  	game.active_cars.push(temp);
-	} , 6500);
-	this.horz_medium_carloop = setInterval(function(){
-  	var temp = new Car(game, 'horz_medium');
-  	game.active_cars.push(temp);
-	} , 3500);
-	this.horz_fast_carloop = setInterval(function(){
-  	var temp = new Car(game, 'horz_fast');
-  	game.active_cars.push(temp);
-	} , 6500);
- 
-
 }
 
 Game.prototype.pause = function(){
-	//clear player move - if arrow key has been pressed
+	//TODO clear player move - if arrow key has been pressed
 	clearInterval(this.gameloop);
-	clearInterval(this.vert_left_north_carloop);
-	clearInterval(this.vert_left_south_carloop);
-	clearInterval(this.vert_right_carloop);
-	clearInterval(this.horz_slow_carloop);
-	clearInterval(this.horz_medium_carloop);
-	clearInterval(this.horz_fast_carloop);
 	this.playing = false;
-	this.$el.trigger('stop_timer');
+	this.$el.trigger('pause');
 }
 
 Game.prototype.updateAll = function() {
@@ -82,51 +66,85 @@ Game.prototype.updateAll = function() {
 	
 	this.player.update(); 
 
-	for(var x=0; x < (this.active_cars.length - 1); x++){
-    this.active_cars[x].update();  
-
-	  var bang = Helper.check_collision( this.active_cars[x], this.player);
-		if(bang && this.collision === false){ this.pause(); this.collision = true; this.hit_car = x; this.promptQuestion(); }
+	//update houses and check for visits
+	for(var key=0; key < this.num_houses; key++){
+		var at_house = Helper.check_collision(houses[key], this.player);
+		if(at_house && (this.in_house === false) && (Helper.notIn( this.houses_visited, key  ))){ 
+			this.pause(); 
+			this.houses_visited.push(key);
+			this.in_house = true; 
+			this.current_house = key; 
+			this.visitingHouse(); 
+		}
+		//else if(Helper.isIn(this.houses_visited, key)){ this.pause(); this.$el.trigger('house_visited', key);  }
+	}
+	//update cars and look for collisions
+	for(var x=0; x < (this.cars.length); x++){
+    this.cars[x].update();  
+	  var bang = Helper.check_collision( this.cars[x], this.player);
+		if(bang && this.collision === false){ this.pause(); this.hitCar(x); }
   }
-
 }
 
 Game.prototype.drawAll = function() {
-//  this.context.clearRect( 0, 0, this.context_width, this.context_height);
-this.context.drawImage(this.bg,0,0,this.context_width, this.context_height);
-//this.drawRectangle('#000', 0,0,450, 400);
-//this.drawRectangle('#fff', 100,100, 500, 500);
+	this.context.drawImage(this.bg,0,0,this.context_width, this.context_height);
   this.player.draw();
-  for(var x=0; x < (this.active_cars.length - 1); x++){
-    this.active_cars[x].draw();  
+  for(var x=0; x < (this.cars.length); x++){
+    this.cars[x].draw();  
   }
 }
 
-Game.prototype.promptQuestion = function(){	
-//	this.pause();
+Game.prototype.visitingHouse = function(){	
+	var
+		base = this, 
+		key = this.current_house,
+		qc = houses[key].questions_correct;	
+
+	if(qc === 0){	
+		this.$el.trigger('visit_house', houses[key]);
+	}
+	if(qc < 3){
+		this.current_question = new Question(this, this.user.level, houses[key].number);
+		this.promptQuestion();
+	}	
+	else{
+		this.in_house = false;
+		this.awaiting_answer = false;
+		this.$el.trigger('leave_house', houses[key]);	
+		setTimeout(function(){ base.play();}, 200);
+	}
+}
+
+Game.prototype.hitCar = function(key){	
+	this.collision = true;
+	this.hit_car = key;
 	this.current_question = new Question(this, this.user.level);
-	console.log(this.current_question);	
-this.awaiting_answer = true;
+	this.promptQuestion();
+}
+
+Game.prototype.promptQuestion = function(){
+	this.awaiting_answer = true;
 	this.$el.trigger('question_prompted', this.current_question.question_string);
 }
 
 Game.prototype.checkAnswer = function(input_answer){
 	var base = this;
-
-	this.awaiting_answer = false;
-	if(this.current_question.answer === input_answer){
-		this.active_cars.remove(this.hit_car);
-		this.num_correct++; 
+//	this.awaiting_answer = false;
+	if(this.current_question.answer === input_answer){	
+		this.num_correct++;
 		this.$el.trigger('answer_correct');
+		if(this.collision){ 
+			this.cars[this.hit_car].moveAhead();	
+  		this.awaiting_answer = false; 
+			this.collision = false; 
+			setTimeout(function(){ base.play();}, 200);
+		}
+		else if(this.in_house){ 
+			houses[this.current_house].questions_correct++;
+			setTimeout(function(){base.visitingHouse();}, 500);
+		 }
 	}
   else{ alert('damn'); }
-	setTimeout(function(){ base.play();}, 200);
-}
-
-
-Game.prototype.addQuestion = function(){
-  var temp = new Question(this);
-  this.active_questions.push(temp);
 }
 
 Game.prototype.victory = function(){
