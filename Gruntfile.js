@@ -5,6 +5,7 @@ module.exports = function( grunt ) {
   //
   // https://github.com/cowboy/grunt/blob/master/docs/getting_started.md
   //
+
   grunt.initConfig({
 
     // Project configuration
@@ -185,5 +186,6 @@ module.exports = function( grunt ) {
 
   // Alias the `test` task to run the `mocha` task instead
   grunt.registerTask('test', 'server:phantom mocha');
+//grunt.registerTask('build','intro clean compass mkdirs usemin-handler concat css min img');
 
 };

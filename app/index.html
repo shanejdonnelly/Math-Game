@@ -17,56 +17,135 @@
         <script src="scripts/vendor/modernizr.min.js"></script>
     </head>
     <body>
-			<div id="container">
-    		<canvas id="board" width="800" height="600">
-      		This browser can not run this game (canvas support missing).
-    		</canvas>
-		
-				<div id="single_question">
-					<input type="text"/>
-				</div>
-				<div id="house"><!-- content appended in script  --></div>
-				<div id="score"></div>
-				<div id="timer"><p>0</p></div>
-				<button style="position:fixed;right:100px; width:80px;top:10px;" id="play">Play</button>
-				<button style="position:fixed;right:100px; width:80px;top:60px;" id="stop">Stop</button>
-			</div><!-- #container -->
-        <!--[if lt IE 7]>
-            <p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better experience this site.</p>
-        <![endif]-->
+       <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container"> 
+          <a class="brand" href="#">JamGames</a>
+          <div class="nav-collapse collapse">
+            <ul class="nav">
+              <!--              <li class="active"><a href="#">Home</a></li> -->
+      <div class="game_controls">
+	<li class="btn btn-success" id="play">Play</li>
+        <li class="btn btn-danger" id="stop">Stop</li>
+      </div><!-- game -->
+            </ul>
+            
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>      
+      <div id="game" class="game container">
 
-        <!-- Add your site or application content here -->
+        <canvas id="board" width="800" height="600">
+        This browser can not run this game (canvas support missing).
+        </canvas>
+        <div id="single_question">
+          <input type="text"/>
+        </div>
+        <div id="house"><!-- content appended in script  --></div>
+        <div id="score"></div>
+        <div id="timer"><p>0</p></div>
+      </div><!-- #game -->
+      <!--
 
- 
-        <script>window.jQuery || document.write('<script src="scripts/vendor/jquery.min.js"><\/script>')</script>
-        
-        
+      MAIN MENU
+
+      -->
+      <div id="main_menu" class="container">
+        <div class="span4">&nbsp;</div>
+        <div class="span4" id="main_menu_content">
+          <h1>Main Menu</h1>
+          <div>
+            <li class="btn btn-success" id="play_mult_mode">Multiplication</li>
+            <li class="btn btn-success" id="play_add_mode">Addition</li>
+          </div>          
+        </div>
+        <div class="span4">&nbsp;</div>
+      </div><!-- #help_wrapper -->
+      <!--
+
+      HOME
+
+      -->
+      <div class="home container">
+        <div class="row">
+          <div class="span4">
+            &nbsp;
+          </div>
+          <div class="span4" style="background:#eee; border-radius:6px;">
+            <!--
+
+            LOGIN
+
+            -->       
+            <div id="login">
+              <h1 style="text-align:center;">Login</h1>
+              <form id="login_form" class="" style="margin-left:30px;">
+                <fieldset>
+                  <input class="" type="text" placeholder="Name">
+                  <button type="submit" class="btn btn-success" style="clear:both;float:left;">Go!</button>
+                </fieldset>
+              </form>
+              <a href="" class="join">New Player</a>
+            </div><!-- #login -->
+            <!--
+
+            JOIN 
+            -->        
+            <div id="join">
+              <h1 class="" style="text-align:center;">Join</h1>
+              <form id="join_form" class="" style="margin-left:30px;"> 
+                <input class="" type="text" placeholder="Name">
+                <button type="submit" class="btn btn-success" style="float:left;clear:left;">Join</button>
+              </form>
+            </div><!-- #join -->
+          </div>
+          <div class="span4">
+            &nbsp;
+          </div>
+        </div>
+      </div>
+      <img src="images/town.png" id="town_image" class="image_load" />
+      <img src="images/vehicles.png" id="vehicles_image" class="image_load" />
+      <img src="images/char.gif" id="characters_image" class="image_load" />
+      <!--[if lt IE 7]>
+      <p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better experience this site.</p>
+      <![endif]-->
+
+      <!-- Add your site or application content here -->
+
+
+      <script>window.jQuery || document.write('<script src="scripts/vendor/jquery.min.js"><\/script>')</script>
+
+
 
         <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
         <script>
-					/*
-            var _gaq=[['_setAccount','UA-XXXXX-X'],['_trackPageview']];
-            (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+          /*
+          var _gaq=[['_setAccount','UA-XXXXX-X'],['_trackPageview']];
+          (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
             g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
             s.parentNode.insertBefore(g,s)}(document,'script'));
-*/
+          */
         </script>
 
- 		<script src="scripts/vendor/jwerty.js"></script> 
-    <!-- build:js scripts/plugins.js -->
-    <script src="scripts/helper.js"></script>
-    <script src="scripts/houses.js"></script>
-    <script src="scripts/models/question.js"></script>
-    <script src="scripts/models/car.js"></script>
 
-    <script src="scripts/models/player.js"></script> 
-    <script src="scripts/models/user.js"></script>
-    <script src="scripts/models/game.js"></script>
-    <script src="scripts/controllers/main_controller.js"></script>
-		<script src="scripts/main.js"></script>
-    <!-- endbuild -->
+        <!-- build:js scripts/plugins.js -->
+        <script src="scripts/vendor/jwerty.js"></script>    
+
+        <script src="scripts/helper.js"></script>
+        <script src="scripts/houses.js"></script>
+        <script src="scripts/models/question.js"></script>
+        <script src="scripts/models/car.js"></script>
+
+        <script src="scripts/models/player.js"></script> 
+        <script src="scripts/models/user.js"></script>
+        <script src="scripts/models/game.js"></script>
+        <script src="scripts/controllers/main_controller.js"></script>
+        <script src="scripts/main.js"></script>
+        <!-- endbuild -->
 
 
 
-</body>
-</html>
+      </body>
+    </html>

@@ -1,14 +1,42 @@
 @import "compass_twitter_bootstrap";
+body {
+      padding-bottom: 40px;
+          padding-top: 60px;
+        }
+.game{ position:relative; display:none; }
+.game_controls{ display:none;margin:0 30px;
+  li.btn{ margin-left:10px;  }
+}
+.home{ 
+  h1{ text-align:center;  }
+}
 
-#container{ position:relative; width:990px; margin:50px auto;  }
+img#characters{ display:none; }
 
-canvas#board{ opacity:0.5; border:1px solid #000; position:absolute; left:50px; background:url(images/town.png) no-repeat -40px -2px; }
+#join{ display:none; padding-bottom:30px; clear:both; }
+#login{
+  a.join{ float:left;margin:0 0 10px 30px; }
+  h1{ margin:20px 0 20px 0; }
+}
+#lets_play{ display:none;  }
+#main_menu{ 
+  display:none;
+  #main_menu_content{
+    border-radius:6px; background:#eee; height:300px;position:relative;z-index:999;margin-top:60px; 
+    p{ margin:15px; }
+    h1{ margin:15px; }
+  }  
+}
+img.image_load{ display:none; }
+canvas#board{ opacity:0.5; border:1px solid #000; position:absolute; left:50px; background:url(images/town.png) no-repeat 0 0; }
 
 
 @mixin dialog_window($neg_width){ position:absolute; margin-top:150px; margin-left:$neg_width; left:50%; display:none; background-color:rgba(255,255,255,0.9);  }
 
 #single_question{
 	@include dialog_window(-40px);
+        border-radius:6px;
+        padding:5px;
 	width:80px; height:80px; 
 	z-index:99;
 	p{ width:70px; margin:5px;  }

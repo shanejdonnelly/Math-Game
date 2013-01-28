@@ -6,33 +6,73 @@ Array.prototype.remove = function(from, to) {
   this.length = from < 0 ? this.length + from : from;
   return this.push.apply(this, rest);
 };
- 
-/*
-if(user is new)create new user
-else load user
-need to pass in user to new Game
-*/
-
-	//	var user = new User();
-	var user = {};
-	user.name = 'Shane';
-	user.level = 1;
-
-		var game = new Game($('#container'), document.getElementById('board'), user);
- 
-if (Modernizr.localstorage) {
-  // window.localStorage is available!
-//user
-//level
-//math type
 
 
-var name = localStorage.getItem('name');
-if(name == null){console.log('create new user')}
-else{ console.log(name); }
-} else {
-  // no native support for HTML5 storage :(
-  // maybe try dojox.storage or a third-party solution
-}
+var 
+  users_stringified = localStorage.getItem('users'), 
+  users = users_stringified ? JSON.parse(users_stringified) : {},
+  current_user;
+
+  function showBoard(){
+  $('#main_menu_content').prepend('<h1>Hi '+ current_user.name + ' !</h1>')
+  $('#main_menu').slideDown();
+  $('#game').fadeIn();
+    //  var game = new Game($('#game'), document.getElementById('board'), current_user);               
+
+  }
+  function startGame(mode){
+   var game = new Game($('#game'), document.getElementById('board'), current_user, mode);                  
+    $('#main_menu').fadeOut();
+    $('.game_controls').fadeIn();
+    game.play();
+  }
+
+$('#login_form input').val('').focus();
+
+$('body').on('click', '#play_mult_mode', function(e){
+  startGame('*');
+});
+
+$('body').on('click', '#play_add_mode', function(e){
+  startGame('+');
+});
+
+$('body').on('click', '#login_form button', function(e){
+    e.preventDefault();
+    var name = $('#login_form input').val();
+
+    if(users[name]){ 
+    current_user = users[name];
+    $('#login').slideUp(function(){ showBoard(); });
+    }
+    else{
+    $('#join').slideDown(function(){$('#login').slideUp();});
+    $('#join_form input').val(name).focus();
+    }
+    });
+
+$('body').on('click', '#join_form button', function(e){
+    e.preventDefault();
+    var name = $('#join_form input').val();
+
+    //check user name not already used
+    if(!users[name]){ 
+    users[name] = {'name':name, 'level':1};
+    current_user = users[name];
+    localStorage.setItem('users', JSON.stringify(users));
+
+    $('#join').slideUp(function(){showBoard();});
+
+    }
+    else{
+    alert('sorry, name taken');
+    }
+    });
+
+$('body').on('click', '#login a.join', function(e){
+    e.preventDefault();
+    $('#join').slideDown(function(){$('#login').slideUp();});
+    $('#join_form input').val(name).focus();
+    });
 
 });

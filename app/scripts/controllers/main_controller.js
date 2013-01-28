@@ -2,7 +2,8 @@ var Main_Controller  = function(game, player){
 
 	var
 		$body = $('body'),
-		$container = $('#container'),
+		$container = $('#game'),
+                $help = $('#help_content'),
 		$board = $container.find('canvas#board'),
 		$single_question = $container.find('#single_question'),
 		$house = $container.find('#house'),
@@ -12,7 +13,7 @@ var Main_Controller  = function(game, player){
 		timer, 
 		time = 0;
 
-	$('#play').on('click', function(){ game.play();  })		
+	$('#play').on('click', function(){ $help.fadeOut(200); game.play();  })		
 	$('#stop').on('click', function(){ game.pause();  })		
 
 
@@ -27,7 +28,7 @@ var Main_Controller  = function(game, player){
 	jwerty.key('ctrl + arrow-right', function(e){e.preventDefault(); player.moveRight('fast');});
 
 
-	jwerty.key('p', function(e){e.preventDefault(); game.play();});
+	jwerty.key('p', function(e){e.preventDefault(); $help.fadeOut(200); game.play();});
 	jwerty.key('s', function(e){e.preventDefault(); game.pause();});
 	jwerty.key('return', function(e){
 					if(game.awaiting_answer){
