@@ -6,7 +6,7 @@ var Game = function($container, canvas, user, mode) {
   this.context = canvas.getContext('2d');
   this.context_width = canvas.width;
   this.context_height = canvas.height;
-  this.player = new Player(this);
+  this.player = new Player(this, user.char);
   this.awaiting_anwser = false;	
   this.current_question;
   this.hit_car = 0;
@@ -22,7 +22,7 @@ var Game = function($container, canvas, user, mode) {
   this.$el = $container;
   this.bg = document.getElementById('town_image');
   //	this.bg.src = ABS_PATH + 'img/town.png';
-//  this.bg.src = '../../images/town.png';
+  //  this.bg.src = '../../images/town.png';
   this.houses_visited = [];
   this.cars = this.buildCars(6);
   this.num_houses = 5;
@@ -34,8 +34,8 @@ var Game = function($container, canvas, user, mode) {
 
 Game.prototype.buildCars = function(num){
   var 
-    roads = ['vert_left_north', 'vert_left_south', 'vert_right', 'horz_slow', 'horz_medium', 'horz_fast'],
-          cars = [];
+  roads = ['vert_left_north', 'vert_left_south', 'vert_right', 'horz_slow', 'horz_medium', 'horz_fast'],
+  cars = [];
 
   for(var i = 0; i < num; i++){
     cars[i] = new Car(this, roads[i]);
@@ -50,13 +50,12 @@ Game.prototype.play = function(){
   this.$el.trigger('play');
 
   this.gameloop = setInterval(function() {
-      game.updateAll();
-      game.drawAll();
-      }, 1000 / game.fps);
+    game.updateAll();
+    game.drawAll();
+  }, 1000 / game.fps);
 }
 
 Game.prototype.pause = function(){
-  //TODO clear player move - if arrow key has been pressed
   clearInterval(this.gameloop);
   this.playing = false;
   this.$el.trigger('pause');
@@ -98,9 +97,9 @@ Game.prototype.drawAll = function() {
 
 Game.prototype.visitingHouse = function(){	
   var
-    base = this, 
-         key = this.current_house,
-         qc = houses[key].questions_correct;	
+  base = this, 
+  key = this.current_house,
+  qc = houses[key].questions_correct;	
 
   if(qc === 0){	
     this.$el.trigger('visit_house', houses[key]);
@@ -156,8 +155,7 @@ Game.prototype.checkAnswer = function(input_answer){
 
 Game.prototype.victory = function(){
   this.pause();
-  this.$el.trigger('victory');
-  alert('You win! Nice work!');
+  this.$el.trigger('victory'); 
 }
 
 Game.prototype.defeat = function(){

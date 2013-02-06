@@ -3,8 +3,8 @@ body {
       padding-bottom: 40px;
           padding-top: 60px;
         }
-.game{ position:relative; display:none; }
-.game_controls{ display:none;margin:0 30px;
+.game{ position:relative;  }
+.game_controls{ display:none;margin:0 30px; float:left;
   li.btn{ margin-left:10px;  }
 }
 .home{ 
@@ -13,18 +13,26 @@ body {
 
 img#characters{ display:none; }
 
-#join{ display:none; padding-bottom:30px; clear:both; }
+#join{ 
+  display:none; padding-bottom:30px; clear:both; 
+  .char{ background:url(images/char.gif) no-repeat; float:left;width:27px;height:33px; }
+  .girl1{ background-position:-2px -3px; clear:left; }
+  .girl2{ background-position:-94px -3px; }
+  .boy1{ background-position:-191px -3px; }
+  .boy2{ background-position:-287px -3px; }
+}
 #login{
   a.join{ float:left;margin:0 0 10px 30px; }
   h1{ margin:20px 0 20px 0; }
 }
 #lets_play{ display:none;  }
 #main_menu{ 
-  display:none;
+ #pick_game{ display:none; } 
   #main_menu_content{
-    border-radius:6px; background:#eee; height:300px;position:relative;z-index:999;margin-top:60px; 
+    border-radius:6px; background:#eee; position:relative;z-index:999;margin-top:60px; 
     p{ margin:15px; }
-    h1{ margin:15px; }
+    h1, h2{ text-align:center; }
+    li{ float:left; width:120px; margin:8px;}
   }  
 }
 img.image_load{ display:none; }
@@ -46,9 +54,12 @@ canvas#board{ opacity:0.5; border:1px solid #000; position:absolute; left:50px; 
 
 #score{ position:absolute; left: 950px; width:50px; }
 
-#score p{ width:40px; margin:5px; float:left;  }
+#score p{ 
+  width:40px; height:12px; margin:1px; float:left; 
+  background-color:gold; border-radius:5px; border:1px solid #000;
+}
 
-#timer{ position:absolute; left:1000px; width:50px;  }
+#timer{ position:absolute; left:1000px; width:50px; display:none;  }
 
 #house{ 
 	@include dialog_window(-150px);

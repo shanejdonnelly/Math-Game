@@ -2,6 +2,7 @@ var Main_Controller  = function(game, player){
 
 	var
 		$body = $('body'),
+                $main_menu = $('#main_menu'),
 		$container = $('#game'),
                 $help = $('#help_content'),
 		$board = $container.find('canvas#board'),
@@ -10,6 +11,7 @@ var Main_Controller  = function(game, player){
 		$input = $single_question.find('input'),
 		$score = $container.find('#score');
 		$timer = $container.find('#timer'),
+                coins_sound = document.getElementById('coins_sound'),
 		timer, 
 		time = 0;
 
@@ -57,7 +59,8 @@ var Main_Controller  = function(game, player){
 	});
 
 	$container.on('answer_correct', function(){
-		$score.append('<p>yay</p>');
+		$score.append('<p>&nbsp;</p>');
+                coins_sound.play();
 		setTimeout(function(){
 			$single_question.fadeOut(200);
 			$input.val('');
@@ -87,6 +90,11 @@ var Main_Controller  = function(game, player){
 		$house.append('<p class="outro">'+ house.goodbye + '</p>');
 		setTimeout(function(){ $house.find('.outro').remove(); $house.fadeOut(300); }, 1000);
 	});
+
+        $container.on('victory', function(e){
+           $main_menu.fadeIn();  
+           $score.empty();
+        });
 
 }
 
