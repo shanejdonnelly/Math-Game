@@ -1,5 +1,5 @@
 var Question = function(game, level, optional){
-  this.level = level;
+  this.level = 1;
   this.mode = game.mode;
   this.answer = 0;
   this.question_string = '';
