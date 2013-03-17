@@ -61,11 +61,19 @@ canvas#board{ opacity:0.5; border:1px solid #000; position:absolute; left:50px; 
 
 #timer{ position:absolute; left:1000px; width:50px; display:none;  }
 
-#house{ 
+#house, #troll{ 
 	@include dialog_window(-150px);
 	width: 300px; height:300px;	
+        border-radius:6px;
+        padding:10px;
+        font-size:17px;
 	z-index:100;
-  background-color:rgba(255,255,255,1);	
+        background-color:rgba(255,255,255,1);	
+        p{ width:300px; }
+}
+#troll{
+  background:url(images/troll1.png) no-repeat top right #ffffff;
+  width:600px; 
 }
 
 

@@ -8,6 +8,7 @@ var Main_Controller  = function(game, player){
 		$board = $container.find('canvas#board'),
 		$single_question = $container.find('#single_question'),
 		$house = $container.find('#house'),
+                $troll = $container.find('#troll'),
 		$input = $single_question.find('input'),
 		$score = $container.find('#score');
 		$timer = $container.find('#timer'),
@@ -59,8 +60,10 @@ var Main_Controller  = function(game, player){
 	});
 
 	$container.on('answer_correct', function(){
+          if(game.in_house){
 		$score.append('<p>&nbsp;</p>');
                 coins_sound.play();
+          }
 		setTimeout(function(){
 			$single_question.fadeOut(200);
 			$input.val('');
@@ -72,8 +75,24 @@ var Main_Controller  = function(game, player){
 	$container.on('answer_wrong', function(){
 		$single_question.append('<p>Boo!</p>');
 		$single_question.css('display', 'block');
+        });
 
+	$container.on('fight_troll', function(e, troll){
+		$troll.fadeIn(200);		
+		$troll.append('<p class="intro">' + troll.greeting +  '</p>');
+		setTimeout(function(){$troll.append('<p class="intro">Prepare for battle!</p>');}, 1000);
+		setTimeout(function(){$troll.append('<p class="intro">Ready...</p>');},2000);	
+		setTimeout(function(){$troll.append('<p class="intro">Set...</p>');}, 3000);	
+		setTimeout(function(){$troll.append('<p class="intro">Charge...</p>');}, 4000);		
+		setTimeout(function(){$troll.find('.intro').remove(); $single_question.css('z-index', 101); }, 5000);		
 	});
+
+	$container.on('leave_troll', function(e, troll){
+		$single_question.css('z-index', 99);
+		$troll.append('<p class="outro">'+ troll.goodbye + '</p>');
+		setTimeout(function(){ $troll.find('.outro').remove(); $troll.fadeOut(300); }, 1000);
+	});
+
 
 	$container.on('visit_house', function(e, house){
 		$house.fadeIn(200);		
