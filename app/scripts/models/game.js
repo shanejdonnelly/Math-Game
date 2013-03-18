@@ -29,7 +29,11 @@ var Game = function($container, user, mode) {
   this.in_house = false;
   this.car_accident = false;
   this.current_house = 99;
-
+  //trolls
+    this.trolls_fought = [];
+      this.num_trolls = 2;
+        this.fighting_troll = false;
+          this.current_troll = 99;
 }
 
 Game.prototype.buildCars = function(num){
@@ -66,8 +70,18 @@ Game.prototype.updateAll = function() {
   if(this.num_correct === 10){ this.victory();  }
   if(this.num_wrong === 10){ this.defeat();  }
 
+  //update trolls and check for battles
   this.player.update(); 
-
+  for(var key1=0; key1 < this.num_trolls; key1++){
+    var at_troll = Helper.check_collision(trolls[key1], this.player);
+    if(at_troll && (this.fighting_troll === false) && (Helper.notIn( this.trolls_fought, key1  ))){ 
+      this.pause(); 
+      this.trolls_fought.push(key1);
+      this.fighting_troll = true; 
+      this.current_troll = key1; 
+      this.fightTroll(); 
+    }
+  }
   //update houses and check for visits
   for(var key=0; key < this.num_houses; key++){
     var at_house = Helper.check_collision(houses[key], this.player);
@@ -96,11 +110,32 @@ Game.prototype.drawAll = function() {
   }
 }
 
+Game.prototype.fightTroll = function(){ 
+  var
+  base = this, 
+  key = this.current_troll,
+  qc = trolls[key].questions_correct; 
+
+  if(qc === 0){ 
+    this.$el.trigger('fight_troll', trolls[key]);
+  }
+  if(qc < 5){
+    this.current_question = new Question(this, this.user.level);
+    this.promptQuestion();
+  } 
+  else{
+    this.fighting_troll = false;
+    this.awaiting_answer = false;
+    this.$el.trigger('leave_troll', trolls[key]); 
+    setTimeout(function(){ base.play();}, 200);
+  }
+}
+
 Game.prototype.visitingHouse = function(){	
   var
-    base = this, 
-         key = this.current_house,
-         qc = houses[key].questions_correct;	
+  base = this, 
+  key = this.current_house,
+  qc = houses[key].questions_correct;	
 
   if(qc === 0){	
     this.$el.trigger('visit_house', houses[key]);
@@ -129,21 +164,26 @@ Game.prototype.promptQuestion = function(){
   this.$el.trigger('question_prompted', this.current_question.question_string);
 }
 
+
 Game.prototype.checkAnswer = function(input_answer){
   var base = this;
-  //	this.awaiting_answer = false;
-  if(this.current_question.answer === input_answer){	
-    this.num_correct++;
+  if(this.current_question.answer === input_answer){  
     this.$el.trigger('answer_correct');
     if(this.collision){ 
-      this.cars[this.hit_car].moveAhead();	
+      this.cars[this.hit_car].moveAhead();  
       this.awaiting_answer = false; 
       this.collision = false; 
       setTimeout(function(){ base.play();}, 200);
     }
     else if(this.in_house){ 
+      this.num_correct++;
       houses[this.current_house].questions_correct++;
       setTimeout(function(){base.visitingHouse();}, 500);
+      this.awaiting_answer = false;
+    }
+    else if (this.fighting_troll){
+      trolls[this.current_troll].questions_correct++;
+      setTimeout(function(){base.fightTroll();}, 500);
       this.awaiting_answer = false;
     }
   }
@@ -153,6 +193,7 @@ Game.prototype.checkAnswer = function(input_answer){
   }
 
 }
+
 
 Game.prototype.victory = function(){
   this.pause();
