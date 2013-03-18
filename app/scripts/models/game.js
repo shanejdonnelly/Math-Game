@@ -22,7 +22,7 @@ var Game = function($container, user, mode) {
   this.$el = $container;
   this.bg = document.getElementById('town_image');
   //	this.bg.src = ABS_PATH + 'img/town.png';
-//  this.bg.src = '../../images/town.png';
+  //  this.bg.src = '../../images/town.png';
   this.houses_visited = [];
   this.cars = this.buildCars(6);
   this.num_houses = 5;
@@ -30,16 +30,16 @@ var Game = function($container, user, mode) {
   this.car_accident = false;
   this.current_house = 99;
   //trolls
-    this.trolls_fought = [];
-      this.num_trolls = 2;
-        this.fighting_troll = false;
-          this.current_troll = 99;
+  this.trolls_fought = [];
+  this.num_trolls = 2;
+  this.fighting_troll = false;
+  this.current_troll = 99;
 }
 
 Game.prototype.buildCars = function(num){
   var 
-    roads = ['vert_left_north', 'vert_left_south', 'vert_right', 'horz_slow', 'horz_medium', 'horz_fast'],
-          cars = [];
+  roads = ['vert_left_north', 'vert_left_south', 'vert_right', 'horz_slow', 'horz_medium', 'horz_fast'],
+  cars = [];
 
   for(var i = 0; i < num; i++){
     cars[i] = new Car(this, roads[i]);
@@ -54,9 +54,9 @@ Game.prototype.play = function(){
   this.$el.trigger('play');
 
   this.gameloop = setInterval(function() {
-      game.updateAll();
-      game.drawAll();
-      }, 1000 / game.fps);
+    game.updateAll();
+    game.drawAll();
+  }, 1000 / game.fps);
 }
 
 Game.prototype.pause = function(){
