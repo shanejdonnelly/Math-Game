@@ -3,9 +3,9 @@ var Game = function($container, user, mode) {
   this.user = user;
   this.mode = mode;
   this.fps = 30;
-  this.context = CTX;
-  this.context_width = CANVAS.width;
-  this.context_height = CANVAS.height;
+  this.context = MT.CTX;
+  this.context_width = MT.CANVAS.width;
+  this.context_height = MT.CANVAS.height;
   this.player = new Player(this);
   this.awaiting_anwser = false;	
   this.current_question;

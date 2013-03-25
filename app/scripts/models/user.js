@@ -1,18 +1,40 @@
-var User = function(){
-//	this.user_data = this.load();
-//	{name:'Shane', level: 1, character: 'blue'}
-	this.name = 'Shane';
-	this.level = 1;
-//	this.character;
-	this.q_attempted = 0;
-	this.q_correct = 0;
-	this.q_wrong = 0;
-}
+var MT = MT || {};
 
-User.prototype.save = {
+$(function($){
 
-}
+    'use strict';
 
-User.prototype.load = {
-	
-}
+
+    MT.UsersModel = Backbone.Model.extend({
+        initialize: function(){
+            this.users_string = localStorage.getItem('users');
+            this.users = this.users_string ? JSON.parse(this.users_string) : {};
+        },
+        getUsers: function(){
+            return this.users;
+        },
+        getUser: function(name){
+            return this.users[name];
+        },
+        setUser:function(name, user_obj){
+            this.users[name] = user_obj;  
+        },
+        saveUsers:function(){
+            localStorage.setItem('users', JSON.stringify(this.users));
+        },
+        nameAvailable: function(name){
+            return this.users[name] ? false : true;
+        },
+
+        createUser: function(name){
+            //check user name not already used
+            if(!this.users[name]){ 
+                this.users[name] = {'name':name, 'level':1};
+                this.saveUsers(); 
+            }
+            else{
+                alert('sorry, name taken');
+            }
+        }
+    });
+});

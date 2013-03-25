@@ -8,13 +8,14 @@ Array.prototype.remove = function(from, to) {
 };
 
 //register globals
-CANVAS = document.getElementById('board');
-CTX = CANVAS.getContext('2d');
+MT.CANVAS = document.getElementById('board');
+MT.CTX = MT.CANVAS.getContext('2d');
 
 $(function($){
 
   'use strict';
-
+//  MT.Users = localStorage.getItem('users');
+  MT.Users = new MT.UsersModel();
   new MT.AppView(); 
 
 });
