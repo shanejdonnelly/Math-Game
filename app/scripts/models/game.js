@@ -1,6 +1,7 @@
 var Game = function($container, user, mode) {
   var base = this;
   this.user = user;
+  console.log(this.user.level);
   this.mode = mode;
   this.fps = 30;
   this.context = MT.CTX;
@@ -34,6 +35,7 @@ var Game = function($container, user, mode) {
   this.num_trolls = 2;
   this.fighting_troll = false;
   this.current_troll = 99;
+  console.log(this.num_correct)
 }
 
 Game.prototype.buildCars = function(num){
@@ -67,8 +69,8 @@ Game.prototype.pause = function(){
 }
 
 Game.prototype.updateAll = function() {
-  if(this.num_correct === 10){ this.victory();  }
-  if(this.num_wrong === 10){ this.defeat();  }
+  if(this.num_correct >= 3){ this.victory();  }
+  if(this.num_wrong >= 3){ this.defeat();  }
 
   //update trolls and check for battles
   this.player.update(); 
@@ -198,6 +200,11 @@ Game.prototype.checkAnswer = function(input_answer){
 Game.prototype.victory = function(){
   this.pause();
   this.$el.trigger('victory');
+  console.log(this.user)
+  this.user.level++;
+  MT.Users.saveUser(this.user.name, this.user);
+  delete this.player;
+  delete this.board;
   alert('You win! Nice work!');
 }
 

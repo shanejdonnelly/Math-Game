@@ -16,8 +16,9 @@ $(function($){
         getUser: function(name){
             return this.users[name];
         },
-        setUser:function(name, user_obj){
+        saveUser:function(name, user_obj){
             this.users[name] = user_obj;  
+            this.saveUsers();
         },
         saveUsers:function(){
             localStorage.setItem('users', JSON.stringify(this.users));

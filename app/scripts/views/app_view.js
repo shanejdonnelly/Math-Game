@@ -11,6 +11,7 @@ $(function($){
         initialize: function(){ 
             this.current_user;
             this.displayUsers();
+            this.game;
         },
 
         events:{
@@ -29,12 +30,13 @@ $(function($){
         },
 
         startGame: function(e){
-            var mode = $(e.target).data('mode'),
-            game = new Game($('#game'), this.current_user, mode);                  
+            var mode = $(e.target).data('mode');
+            this.game = new Game($('#game'), this.current_user, mode);                  
             //  var game = new MT.GameView({mode: mode});
             $('#main_menu').fadeOut();
             $('.game_controls').fadeIn();
-            game.play();
+            this.game.play();
+            console.log(this.game);
         },
 
         preGame: function(){

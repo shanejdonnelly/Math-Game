@@ -17,5 +17,5 @@ $(function($){
 //  MT.Users = localStorage.getItem('users');
   MT.Users = new MT.UsersModel();
   new MT.AppView(); 
-
+  
 });
